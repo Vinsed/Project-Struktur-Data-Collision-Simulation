@@ -6,10 +6,10 @@ Nama : Vinsen Dwi Putra
 NRP  : 5024241094
 
 ## Daftar isi 
->Overview(#overview)
->Dependencies(#dependencies)
->Cara build dan run Project(#cara-build-dan-run-project)
->Progress(#progress)
+- [Overview](#overview)
+- [dependencies](#dependencies)
+- [Cara build dan run Project](#cara-build-dan-run-project)
+- [Progress](#progress)
 
 ## Overview
 Proyek ini dibuat untuk menampilkan simulasi interaksi dan tabrakan antara berbagai objek dengan menggunakan SFML (Simple and Fast Multimedia Library) sebagai alat untuk merender grafik. Melalui simulasi tersebut, berbagai konsep pada struktur data dan analisis algoritma diterapkan secara langsung, khususnya dalam mekanisme pendeteksian serta penanganan benturan antar objek menggunakan Fitur BruteForce dan Quadtree.
