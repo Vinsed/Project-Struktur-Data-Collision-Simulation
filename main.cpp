@@ -2,103 +2,137 @@
 #include <vector>
 #include <cmath>
 #include <ctime>
+#include <iostream>
 
-// Struktur data untuk partikel
-struct Particle {
-    sf::Vector2f pos;
-    sf::Vector2f vel;
-    sf::Color color;
-};
+const int WIN_WIDTH = 1156;
+const int WIN_HEIGHT = 650;
+const int JUMLAH_PARTIKEL = 20;
 
-// Fungsi untuk menghasilkan warna acak
-sf::Color getRandomColor() {
-    return sf::Color(rand() % 256, rand() % 256, rand() % 256);
+int randomRange(int min, int max) {
+    return min + rand() % (max - min + 1);
 }
 
-// Random position generator
-sf::Vector2f getRandomPosition(int width, int height, float radius) {
-    sf::Vector2f pos;
-    pos.x = radius + rand() % (width - (int)(radius * 2));
-    pos.y = radius + rand() % (height - (int)(radius * 2));
-    return pos;
+class Particle {
+public:
+    sf::CircleShape shape;
+    sf::Vector2f velocity;
+    float radius;
+
+    // Constructor
+    Particle(float r, sf::Vector2f pos, sf::Vector2f vel, sf::Color color) 
+        : radius(r), velocity(vel) 
+    {
+        shape.setRadius(r);
+        shape.setOrigin(r, r); 
+        shape.setPosition(pos);
+        shape.setFillColor(color);
+    }
+
+    void update() {
+        shape.move(velocity);
+        sf::Vector2f pos = shape.getPosition();
+
+        if (pos.x - radius < 0) {
+            shape.setPosition(radius, pos.y);
+            velocity.x = std::abs(velocity.x);
+        } 
+        else if (pos.x + radius > WIN_WIDTH) {
+            shape.setPosition(WIN_WIDTH - radius, pos.y);
+            velocity.x = -std::abs(velocity.x);
+        }
+        if (pos.y - radius < 0) {
+            shape.setPosition(pos.x, radius);
+            velocity.y = std::abs(velocity.y);
+        } 
+        else if (pos.y + radius > WIN_HEIGHT) {
+            shape.setPosition(pos.x, WIN_HEIGHT - radius);
+            velocity.y = -std::abs(velocity.y);
+        }
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(shape);
+    }
+};
+
+void checkCollision(Particle& a, Particle& b) {
+    sf::Vector2f posA = a.shape.getPosition();
+    sf::Vector2f posB = b.shape.getPosition();
+
+    float dx = posB.x - posA.x;
+    float dy = posB.y - posA.y;
+    
+    float distance = std::sqrt(dx*dx + dy*dy);
+    float minDistance = a.radius + b.radius;
+
+    // Overlap Mitigation
+    if (distance < minDistance) {
+        float overlap = (minDistance - distance) / 2.0f;
+        float nx = dx / distance;
+        float ny = dy / distance;
+
+        a.shape.move(-nx * overlap, -ny * overlap);
+        b.shape.move(nx * overlap, ny * overlap);
+
+        std::swap(a.velocity, b.velocity);
+    }
+}
+
+// Partikel Generator
+Particle createRandomParticle() {
+    float r = randomRange(10, 25);
+    
+    float x = randomRange(r * 2, WIN_WIDTH - r * 2);
+    float y = randomRange(r * 2, WIN_HEIGHT - r * 2);
+    float vx = (randomRange(-100, 100)) / 25.0f; 
+    float vy = (randomRange(-100, 100)) / 25.0f;
+    
+    sf::Color color(rand() % 255, rand() % 255, rand() % 255);
+
+    return Particle(r, sf::Vector2f(x, y), sf::Vector2f(vx, vy), color);
 }
 
 int main() {
-    srand(time(0));
-    
-    int width = 1200;
-    int height = 800;
-    float radius = 20.0f;
-    
-    sf::RenderWindow window(sf::VideoMode(width, height), "Particle Sim - Left Click to add");
+    srand(static_cast<unsigned>(time(0)));
+
+    sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "Particle Collision Simulation");
     window.setFramerateLimit(60);
-    
+
     std::vector<Particle> particles;
-    
-    // bikin partikel awal, jumlahnya random
-    int startCount = 5 + rand() % 11;
-    for (int i = 0; i < startCount; i++) {
-        Particle p;
-        p.pos = getRandomPosition(width, height, radius);
-        
-        // kasih kecepatan random
-        float angle = (rand() % 360) * 3.14159f / 180.0f;
-        float speed = 2.0f;
-        p.vel.x = cos(angle) * speed;
-        p.vel.y = sin(angle) * speed;
-        
-        p.color = getRandomColor();
-        particles.push_back(p);
+    for (int i = 0; i < JUMLAH_PARTIKEL; i++) {
+        particles.push_back(createRandomParticle());
     }
-    
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) 
                 window.close();
-            
-            // tambah partikel kalo klik kiri mouse
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    Particle p;
-                    p.pos.x = event.mouseButton.x;
-                    p.pos.y = event.mouseButton.y;
-                    
-                    float angle = (rand() % 360) * 3.14159f / 180.0f;
-                    float speed = 2.0f;
-                    p.vel.x = cos(angle) * speed;
-                    p.vel.y = sin(angle) * speed;
-                    
-                    p.color = getRandomColor();
-                    particles.push_back(p);
-                }
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                Particle newP = createRandomParticle();
+                newP.shape.setPosition(event.mouseButton.x, event.mouseButton.y);
+                particles.push_back(newP);
             }
         }
-        
-        // update posisi semua partikel
+
+        // Update
         for (auto& p : particles) {
-            p.pos.x += p.vel.x;
-            p.pos.y += p.vel.y;
-            
-            // pantul kalo nabrak dinding
-            if (p.pos.x < radius || p.pos.x > width - radius)
-                p.vel.x *= -1;
-            if (p.pos.y < radius || p.pos.y > height - radius)
-                p.vel.y *= -1;
+            p.update();
         }
-        
-        // gambar semuanya
-        window.clear(sf::Color(25, 25, 35));
-        
+        // Cek collision 
+        for (size_t i = 0; i < particles.size(); i++) {
+            for (size_t j = i + 1; j < particles.size(); j++) {
+                checkCollision(particles[i], particles[j]);
+            }
+        }
+
+        // Rendering
+        window.clear(sf::Color(20, 20, 30)); 
         for (auto& p : particles) {
-            sf::CircleShape ball(radius);
-            ball.setPosition(p.pos.x - radius, p.pos.y - radius);
-            ball.setFillColor(p.color);
-            window.draw(ball);
+            p.draw(window);
         }
-        
         window.display();
     }
-    
+
     return 0;
 }
