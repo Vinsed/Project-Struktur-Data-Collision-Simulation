@@ -7,7 +7,7 @@ NRP  : 5024241094
 
 ## Daftar isi 
 - [Overview](#overview)
-- [dependencies](#dependencies)
+- [Dependencies](#dependencies)
 - [Cara build dan run Project](#cara-build-dan-run-project)
 - [Progress](#progress)
 
@@ -37,7 +37,7 @@ Ikuti langkah berikut untuk Build dan run proyek:
 ## Progress
 
 - [x] Meyiapkan Library SFML dan proses buildnya.
-- [x] Mengembangkan fitur Penambahan Bola serta penanganan Collision antar objek.
+- [x] Mengembangkan fitur memunculkan bola di awal dan menambahkan bola di pertengahan program
 - [ ] Menambahkan collision detection antar objek
 - [ ] Mengimplementasikan metode Brute Force dan Quadtree
 
@@ -58,5 +58,5 @@ Ikuti langkah berikut untuk Build dan run proyek:
 
 29-November-2025
 
-- Object yang auto generated ketika program pertama kali dijalankan bisa di atur dan juga bisa di generate di lokasi random langsung saat program berjalan menggunakan "Space Button"
+- Object yang auto generated ketika program pertama kali dijalankan bisa di atur dan juga bisa di generate di lokasi cursor langsung saat program berjalan menggunakan "Left mouse button"
 
