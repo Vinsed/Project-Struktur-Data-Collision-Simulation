@@ -38,8 +38,8 @@ Ikuti langkah berikut untuk Build dan run proyek:
 
 - [x] Meyiapkan Library SFML dan proses buildnya.
 - [x] Mengembangkan fitur memunculkan bola di awal dan menambahkan bola di pertengahan program
-- [ ] Menambahkan collision detection antar objek
-- [ ] Mengimplementasikan metode Brute Force dan Quadtree
+- [x] Menambahkan collision detection antar objek
+- [x] Mengimplementasikan metode Brute Force dan Quadtree
 
 
 27-September-2025
@@ -58,5 +58,14 @@ Ikuti langkah berikut untuk Build dan run proyek:
 
 29-November-2025
 
-- Object yang auto generated ketika program pertama kali dijalankan bisa di atur dan juga bisa di generate di lokasi cursor langsung saat program berjalan menggunakan "Left mouse button"
+- Object yang auto generated ketika program pertama kali dijalankan bisa di atur dan juga bisa di generate manual di lokasi cursor langsung saat program berjalan menggunakan "Left mouse button"
+
+30-November-2025
+
+-Penambahan Algoritma BruteFroce untuk Menangani Deteksi Collision dan Respons Tabrakan Pada partikel
+
+1-Desember-2025
+
+-Penambahan Algoritma QuadTree yang bekerja sama dengan Algoritma BruteForce dalam menangani collision yang bisa di Algoritma nya nanti bisa ditoggle mana yang akan bekerja
+-Penambahan Check Counter untuk tahu berapa algoritma yang sedang bekerja
 
