@@ -62,10 +62,10 @@ Ikuti langkah berikut untuk Build dan run proyek:
 
 30-November-2025
 
--Penambahan Algoritma BruteFroce untuk Menangani Deteksi Collision dan Respons Tabrakan Pada partikel
+- Penambahan Algoritma BruteFroce untuk Menangani Deteksi Collision dan Respons Tabrakan Pada partikel
 
 1-Desember-2025
 
--Penambahan Algoritma QuadTree yang bekerja sama dengan Algoritma BruteForce dalam menangani collision yang bisa di Algoritma nya nanti bisa ditoggle mana yang akan bekerja
--Penambahan Check Counter untuk tahu berapa algoritma yang sedang bekerja
+- Penambahan Algoritma QuadTree yang bekerja sama dengan Algoritma BruteForce dalam menangani collision yang bisa di Algoritma nya nanti bisa ditoggle mana yang akan bekerja
+- Penambahan Check Counter untuk tahu berapa algoritma yang sedang bekerja
 
