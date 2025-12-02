@@ -33,6 +33,13 @@ Ikuti langkah berikut untuk Build dan run proyek:
    ```bash
    ./main
    ```
+##  Kontrol
+
+| Tombol | Fungsi |
+|--------|--------|
+| **LeftMouseButton** | Tambah partikel baru dengan lokasi kursor |
+| **T** | Ganti algoritma (Brute Force ⇄ Quadtree) |
+| **G** | Tampilkan / sembunyikan Grid Quadtree |
 
 ## Progress
 
@@ -69,3 +76,18 @@ Ikuti langkah berikut untuk Build dan run proyek:
 - Penambahan Algoritma QuadTree yang bekerja sama dengan Algoritma BruteForce dalam menangani collision yang bisa di Algoritma nya nanti bisa ditoggle mana yang akan bekerja
 - Penambahan Check Counter untuk tahu berapa algoritma yang sedang bekerja
 
+2-Desemmber-2025
+
+- Fixed particle overlapping bug in QuadTree mode
+
+## Hasil Akhir 
+
+- Kode Class dan Rectangle QuadTree 
+<img width="1445" height="1222" alt="Image" src="https://github.com/user-attachments/assets/6dad3341-d504-4100-a9fb-78c73e88d82a" />
+
+- Kode BruteForce
+<img width="1180" height="442" alt="Image" src="https://github.com/user-attachments/assets/ca526e02-d885-4156-9f20-04157c1a459d" />
+
+- Running Program
+
+https://github.com/user-attachments/assets/24215193-c031-4b01-bd60-4544d24bb27d
