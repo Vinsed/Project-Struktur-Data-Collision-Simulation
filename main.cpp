@@ -21,8 +21,9 @@ struct Rect {
     bool contains(const Particle& p) const {
         return (p.pos.x >= x && p.pos.x <= x + w && p.pos.y >= y && p.pos.y <= y + h);
     }
+
     bool intersects(const Rect& r) const {
-        return !(r.x > x + w || r.x + r.w < x || r.x + r.h < y || r.y + r.h < y);
+        return !(r.x > x + w || r.x + r.w < x || r.y > y + h || r.y + r.h < y);
     }
 };
 
@@ -154,7 +155,7 @@ int main() {
     std::vector<Particle> particles;
 
     // Initial Spawn
-    int initialCount = 20 + rand() % 11;
+    int initialCount = 150 + rand() % 11;
     for (int i = 0; i < initialCount; i++) {
         Particle p;
         p.radius = minRadius + rand() % (int)(maxRadius - minRadius + 1);
@@ -169,9 +170,7 @@ int main() {
     bool showGrid = true;
     long long checksBF = 0, checksQT = 0;
 
-    // ======================
-    // FPS COUNTER VARIABLES
-    // ======================
+    //fps counter
     sf::Clock fpsClock;
     float fps = 0;
     int frameCount = 0;
@@ -237,7 +236,11 @@ int main() {
                 checksQT += nearby.size();
 
                 for (auto* other : nearby) {
-                    if (&particles[i] < other) {
+                    if (other == &particles[i]) continue;
+
+                    // ======== FIXED VERSION ========
+                    size_t j = static_cast<size_t>(other - &particles[0]);
+                    if (i < j) {
                         checksBF++;
                         if (checkCollision(particles[i], *other)) {
                             resolveCollision(particles[i], *other);
@@ -267,6 +270,7 @@ int main() {
             circle.setFillColor(p.color);
             window.draw(circle);
         }
+
         if (hasFont) {
             sf::Text text;
             text.setFont(font);
