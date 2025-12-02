@@ -141,7 +141,7 @@ void resolveCollision(Particle& a, Particle& b) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    int width = 1156, height = 650;
+    int width = 1920, height = 1080;
     float minRadius = 10, maxRadius = 30;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Particle Collision Simulation");
